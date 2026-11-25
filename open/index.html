@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TripCrew 열기</title>
+  <meta property="og:title" content="TripCrew — 함께 짜는 여행 지도 · 일정 · 정산" />
+  <meta property="og:description" content="링크를 눌러 TripCrew 앱을 열고 진행 중인 투표와 크루 소식을 확인하세요." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mytripcrew.github.io/open" />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f5f5f7;
+      --card: #ffffff;
+      --text: #111827;
+      --sub: #6b7280;
+      --accent: #007aff;
+      --border: rgba(0, 0, 0, 0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1115;
+        --card: #1c1e24;
+        --text: #f3f4f6;
+        --sub: #9ca3af;
+        --accent: #0a84ff;
+        --border: rgba(255, 255, 255, 0.1);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+    }
+    .card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ff7b4c, #ea4a25);
+      color: #fff;
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+    h1 { margin: 0 0 10px; font-size: 21px; font-weight: 700; letter-spacing: -0.3px; }
+    p { margin: 0 0 24px; font-size: 14.5px; line-height: 1.55; color: var(--sub); }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 15.5px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .hint { margin-top: 16px; font-size: 12.5px; color: var(--sub); }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="badge" aria-hidden="true">🗺️</div>
+    <h1 id="title">TripCrew 앱 열기</h1>
+    <p id="desc">앱에서 진행 중인 투표와 여행 크루의 새 소식을 바로 확인하세요.</p>
+    <a id="openBtn" class="btn" href="tripcrew://open">TripCrew 열기</a>
+    <p id="hint" class="hint">앱이 자동으로 열리지 않으면 위 버튼을 누르거나 Safari에서 열어 주세요.</p>
+  </main>
+  <script>
+    (function () {
+      var lang = (navigator.language || "ko").toLowerCase();
+      if (lang.startsWith("ja")) {
+        document.getElementById("title").textContent = "TripCrewアプリを開く";
+        document.getElementById("desc").textContent = "アプリで進行中の投票やクルーの最新情報を確認しましょう。";
+        document.getElementById("openBtn").textContent = "TripCrewを開く";
+        document.getElementById("hint").textContent = "自動で開かない場合は上のボタンをタップするか、Safariで開いてください。";
+      } else if (!lang.startsWith("ko")) {
+        document.getElementById("title").textContent = "Open TripCrew";
+        document.getElementById("desc").textContent = "Open the app to cast your vote and check the latest crew updates.";
+        document.getElementById("openBtn").textContent = "Open TripCrew";
+        document.getElementById("hint").textContent = "If the app doesn't open automatically, tap the button above or open this page in Safari.";
+      }
+      setTimeout(function () {
+        window.location.href = "tripcrew://open";
+      }, 150);
+    })();
+  </script>
+</body>
+</html>

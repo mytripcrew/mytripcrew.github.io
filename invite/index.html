@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TripCrew — 크루 초대장</title>
+  <meta property="og:title" content="TripCrew 여행 크루 초대장" />
+  <meta property="og:description" content="함께 짜는 여행 지도 · 일정 · N빵 정산. 링크를 눌러 TripCrew에서 초대를 수락하세요." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mytripcrew.github.io/invite" />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f5f5f7;
+      --card: #ffffff;
+      --text: #111827;
+      --sub: #6b7280;
+      --accent: #007aff;
+      --border: rgba(0, 0, 0, 0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1115;
+        --card: #1c1e24;
+        --text: #f3f4f6;
+        --sub: #9ca3af;
+        --accent: #0a84ff;
+        --border: rgba(255, 255, 255, 0.1);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+    }
+    .card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ff7b4c, #ea4a25);
+      color: #fff;
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    p {
+      margin: 0 0 24px;
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: var(--sub);
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 15.5px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .hint {
+      margin-top: 16px;
+      font-size: 12.5px;
+      color: var(--sub);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="badge" aria-hidden="true">✈️</div>
+    <h1 id="title">TripCrew 여행 크루 초대장</h1>
+    <p id="desc">아래 버튼을 눌러 TripCrew 앱에서 초대를 수락하고 여행 일정·지도·정산을 함께 시작하세요.</p>
+    <a id="openBtn" class="btn" href="tripcrew://open">TripCrew 앱에서 초대 열기</a>
+    <p id="hint" class="hint">앱이 설치되어 있지 않다면 App Store에서 'TripCrew'를 먼저 설치해 주세요. 카카오톡 등 인앱 브라우저에서는 우측 상단(···)에서 Safari로 열면 바로 연결됩니다.</p>
+  </main>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var shareToken = params.get("share");
+      var rawShareUrl = params.get("shareUrl");
+      var memberId = params.get("m") || params.get("invitedMemberId") || "";
+
+      var resolvedShareUrl = "";
+      if (shareToken && /^[A-Za-z0-9._-]+$/.test(shareToken)) {
+        resolvedShareUrl = "https://www.icloud.com/share/" + shareToken;
+      } else if (rawShareUrl && rawShareUrl.indexOf("https://www.icloud.com/share/") === 0) {
+        resolvedShareUrl = rawShareUrl;
+      }
+
+      var deepLink = "tripcrew://open";
+      if (resolvedShareUrl) {
+        var q = new URLSearchParams();
+        q.set("shareUrl", resolvedShareUrl);
+        if (memberId) q.set("invitedMemberId", memberId);
+        deepLink = "tripcrew://invite?" + q.toString();
+      }
+
+      var lang = (navigator.language || "ko").toLowerCase();
+      if (lang.startsWith("ja")) {
+        document.getElementById("title").textContent = "TripCrew 旅行クルーへの招待";
+        document.getElementById("desc").textContent = "下のボタンをタップしてTripCrewアプリで招待を受け取り、旅行プランや割り勘を一緒に始めましょう。";
+        document.getElementById("openBtn").textContent = "TripCrewアプリで招待を開く";
+        document.getElementById("hint").textContent = "アプリが未インストールの場合はApp Storeから「TripCrew」をインストールしてください。アプリ内ブラウザで開けない場合はSafariで開いてください。";
+      } else if (!lang.startsWith("ko")) {
+        document.getElementById("title").textContent = "TripCrew Crew Invitation";
+        document.getElementById("desc").textContent = "Tap the button below to accept the invitation in TripCrew and plan your trip together.";
+        document.getElementById("openBtn").textContent = "Open Invitation in TripCrew";
+        document.getElementById("hint").textContent = "Install TripCrew from the App Store if you haven't yet. In an in-app browser, choose 'Open in Safari' if the button doesn't launch the app.";
+      }
+
+      var btn = document.getElementById("openBtn");
+      btn.href = deepLink;
+
+      // 자동으로 앱 열기 시도 (실패 시 사용자가 직접 버튼 탭 가능)
+      setTimeout(function () {
+        window.location.href = deepLink;
+      }, 150);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "PRZ54C5VBV.Choi.TripCrew",
+          "PRZ54C5VBV.Choi.TripCrew.Dev"
+        ],
+        "components": [
+          {
+            "/": "/invite*",
+            "comment": "TripCrew crew invitation universal link"
+          },
+          {
+            "/": "/open*",
+            "comment": "TripCrew quick launch & vote reminder universal link"
+          }
+        ]
+      }
+    ]
+  }
+}
