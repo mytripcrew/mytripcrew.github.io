@@ -72,15 +72,18 @@
       font-size: 15.5px;
       font-weight: 700;
       text-decoration: none;
+      margin-bottom: 10px;
     }
-    .support {
-      margin-top: 22px;
+    .links {
+      margin-top: 20px;
       padding-top: 18px;
       border-top: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--sub);
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      font-size: 13.5px;
     }
-    .support a { color: var(--accent); text-decoration: none; }
+    .links a { color: var(--accent); text-decoration: none; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -88,10 +91,19 @@
     <div class="badge" aria-hidden="true">🗺️</div>
     <h1>TripCrew</h1>
     <p>함께 짜는 여행 지도 · 일정 · N빵 정산 · 나만의 장소 아카이브.<br />Group Travel Map, Itinerary &amp; Expense Split for iOS.</p>
-    <a class="btn" href="tripcrew://open">TripCrew 앱 열기</a>
-    <div class="support">
-      Support &amp; Inquiries: <a href="mailto:chl8523@gmail.com">chl8523@gmail.com</a>
-    </div>
+    <a id="openBtn" class="btn" href="tripcrew://open">TripCrew 앱 열기</a>
+    <nav class="links">
+      <a href="/support">Support</a>
+      <a href="/privacy">Privacy Policy</a>
+    </nav>
   </main>
+  <script>
+    (function () {
+      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isIOS) {
+        document.getElementById("openBtn").style.display = "none";
+      }
+    })();
+  </script>
 </body>
 </html>
