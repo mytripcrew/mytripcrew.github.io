@@ -100,9 +100,11 @@
         document.getElementById("openBtn").textContent = "Open TripCrew";
         document.getElementById("hint").textContent = "If the app doesn't open automatically, tap the button above or open this page in Safari.";
       }
-      setTimeout(function () {
-        window.location.href = "tripcrew://open";
-      }, 150);
+      var btn = document.getElementById("openBtn");
+      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isIOS) {
+        btn.style.display = "none";
+      }
     })();
   </script>
 </body>

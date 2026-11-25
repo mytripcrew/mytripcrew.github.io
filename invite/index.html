@@ -138,11 +138,10 @@
 
       var btn = document.getElementById("openBtn");
       btn.href = deepLink;
-
-      // 자동으로 앱 열기 시도 (실패 시 사용자가 직접 버튼 탭 가능)
-      setTimeout(function () {
-        window.location.href = deepLink;
-      }, 150);
+      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isIOS) {
+        btn.style.display = "none";
+      }
     })();
   </script>
 </body>
