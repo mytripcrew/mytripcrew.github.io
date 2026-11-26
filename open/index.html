@@ -88,6 +88,20 @@
   </main>
   <script>
     (function () {
+      var params = new URLSearchParams(window.location.search);
+      var tripId = params.get("t") || params.get("tripId") || "";
+      var voteFlag = params.get("v") || params.get("vote") || "";
+
+      var deepLink = "tripcrew://open";
+      if (tripId && /^[A-Za-z0-9._-]+$/.test(tripId)) {
+        var q = new URLSearchParams();
+        q.set("t", tripId);
+        if (voteFlag === "1" || voteFlag.toLowerCase() === "true") {
+          q.set("v", "1");
+        }
+        deepLink = "tripcrew://open?" + q.toString();
+      }
+
       var lang = (navigator.language || "ko").toLowerCase();
       if (lang.startsWith("ja")) {
         document.getElementById("title").textContent = "TripCrewアプリを開く";
@@ -101,11 +115,12 @@
         document.getElementById("hint").textContent = "If the app doesn't open automatically, tap the button above or open this page in Safari.";
       }
       var btn = document.getElementById("openBtn");
+      btn.href = deepLink;
       var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
         (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
       if (isIOS) {
         setTimeout(function () {
-          window.location.href = "tripcrew://open";
+          window.location.href = deepLink;
         }, 150);
       } else {
         btn.style.display = "none";
